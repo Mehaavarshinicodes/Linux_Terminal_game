@@ -1,10 +1,8 @@
 # Dungeon RPG
 
-A complete terminal-based dungeon crawler RPG, written in Python and built
-with the [Textual](https://textual.textualize.io/) TUI framework. The
-project doubles as a hands-on learning example for **Docker and
-containerization**: it takes a real, stateful, interactive terminal
-application and packages it into a portable, reproducible container image.
+A dungeon crawler RPG with two entrypoints: a terminal UI written with
+[Textual](https://textual.textualize.io/) and a browser version served by
+Flask. The browser version is deployable to Vercel.
 
 ```
 ______                                  _____ _____________
@@ -40,7 +38,9 @@ ______                                  _____ _____________
 ```
 .
 ├── main.py            # The entire game (single file, OOP design)
-├── requirements.txt   # Python dependencies (Textual)
+├── app.py             # Flask browser version and Vercel entrypoint
+├── requirements.txt   # Python dependencies
+├── vercel.json        # Vercel Python function routing
 ├── Dockerfile          # Container build instructions
 └── README.md           # This file
 ```
@@ -69,6 +69,27 @@ pip install -r requirements.txt
 # 4. Run the game
 python3 main.py
 ```
+
+## Deploying the browser version to Vercel
+
+The Vercel version runs from `app.py` and uses the browser's signed session
+cookie for game state, so it does not depend on a writable server filesystem.
+
+1. Push this folder to a GitHub repository and import it at
+  [vercel.com](https://vercel.com/).
+2. Add an environment variable named `SECRET_KEY` with a long random value.
+3. Deploy. Vercel detects `vercel.json`, installs `requirements.txt`, and
+  serves the playable browser game at the project URL.
+
+For local browser testing:
+
+```bash
+pip install -r requirements.txt
+flask --app app run
+```
+
+Open `http://127.0.0.1:5000` after starting the Flask server. The original
+terminal version remains available with `python3 main.py`.
 
 ## Running with Docker
 

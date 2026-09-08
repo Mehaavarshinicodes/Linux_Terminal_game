@@ -180,6 +180,8 @@ class Player:
     def to_dict(self) -> dict:
         return {
             "name": self.name,
+            "x": self.x,
+            "y": self.y,
             "hp": self.hp,
             "max_hp": self.max_hp,
             "attack": self.attack,
